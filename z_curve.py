@@ -3,6 +3,7 @@
 import pandas as pd
 import plotly.express as px
 
+
 def delete_description(file):
     """Delete description from FASTA file.
     
@@ -17,6 +18,7 @@ def delete_description(file):
         else:
             total_sequence.append(line)
     return ''.join(total_sequence)
+
 
 def genome_coordinates(genome):
     """Counts coordinates.
@@ -49,10 +51,11 @@ def genome_coordinates(genome):
         coordinates['z'].append(count_z * 2)
     return coordinates
 
+
 def plot_maker(genome):
     """Plots the z-curve."""
     coordinates = genome_coordinates(genome)
-    dataframe_dict = {"x": coordinates['x'],        # Create dataframe from coordinates
+    dataframe_dict = {"x": coordinates['x'],
                       "y": coordinates['y'],
                       "z": coordinates['z']}
     dataframe = pd.DataFrame.from_dict(dataframe_dict)
@@ -60,7 +63,7 @@ def plot_maker(genome):
     return fig.show()
 
 
-# Дальше код для запуска поделенного генома
+# Futher starts code for genome divided into sequences.
 
 def split_genome(genome, sequence_length):
     """Divides the genome into sequences of a given length (sequence_length)
@@ -70,10 +73,11 @@ def split_genome(genome, sequence_length):
     ERROR: If genome length is not divisible by sequence_length, the last nucleotides are dropped.
     """
     sequences = []
-    for n in range(len(genome) - (len(genome) % sequence_length)):
-        if n == 0 or n % sequence_length == 0:
-            sequences.append(genome[n : n + sequence_length])
+    for nucleotide in range(len(genome) - (len(genome) % sequence_length)):
+        if nucleotide == 0 or nucleotide % sequence_length == 0:
+            sequences.append(genome[nucleotide : nucleotide + sequence_length])
     return sequences
+
 
 def splitted_genome_coordinates(splitted_genome):
     """Coordinates for the genome divided into sequences.
@@ -82,21 +86,21 @@ def splitted_genome_coordinates(splitted_genome):
     """
     count_x, count_y, count_z = 0, 0, 0
     coordinates = {'x': [], 'y': [], 'z': []}
-    for s in range(len(splitted_genome)):
-        for n in range(10):
-            if splitted_genome[s][n] == 'A':
+    for sequence_i, sequence in enumerate(splitted_g_e):
+        for nucleotide_i in enumerate(sequence):
+            if splitted_genome[sequence_i][nucleotide_i[0]] == 'A':
                 count_x += 1
                 count_y += 1
                 count_z += 1
-            elif splitted_genome[s][n] == 'T':
+            elif splitted_genome[sequence_i][nucleotide_i[0]] == 'T':
                 count_x -= 1
                 count_y -= 1
                 count_z += 1
-            elif splitted_genome[s][n] == 'G':
+            elif splitted_genome[sequence_i][nucleotide_i[0]] == 'G':
                 count_x += 1
                 count_y -= 1
                 count_z -= 1
-            elif splitted_genome[s][n] == 'C':
+            elif splitted_genome[sequence_i][nucleotide_i[0]] == 'C':
                 count_x -= 1
                 count_y += 1
                 count_z -= 1
