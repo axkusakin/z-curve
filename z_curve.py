@@ -86,7 +86,7 @@ def splitted_genome_coordinates(splitted_genome):
     """
     count_x, count_y, count_z = 0, 0, 0
     coordinates = {'x': [], 'y': [], 'z': []}
-    for sequence_i, sequence in enumerate(splitted_g_e):
+    for sequence_i, sequence in enumerate(splitted_genome):
         for nucleotide_i in enumerate(sequence):
             if splitted_genome[sequence_i][nucleotide_i[0]] == 'A':
                 count_x += 1
